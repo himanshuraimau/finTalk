@@ -33,6 +33,14 @@ def convert_webm_to_wav(audio_bytes):
         wav_io = io.BytesIO()
         audio.export(wav_io, format="wav")
         return wav_io.getvalue()
+    except FileNotFoundError as e:
+        if 'ffprobe' in str(e):
+            st.error("FFmpeg is not installed. Please install FFmpeg to enable audio processing.")
+            st.info("Visit the README file for installation instructions.")
+            return None
+        else:
+            st.error(f"Error converting audio: {e}")
+            return None
     except Exception as e:
         st.error(f"Error converting audio: {e}")
         return None

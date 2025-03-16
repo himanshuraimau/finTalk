@@ -15,6 +15,7 @@ FinTalk is an AI-powered financial assistant specialized in providing loan advis
 ### Prerequisites
 - Python 3.8 or higher
 - Virtual environment (recommended)
+- FFmpeg (required for audio processing)
 
 ### Setup
 1. Clone the repository:
@@ -23,18 +24,23 @@ FinTalk is an AI-powered financial assistant specialized in providing loan advis
    cd fintalk
    ```
 
-2. Create and activate a virtual environment:
+2. Install FFmpeg (required for audio processing):
+   - **Ubuntu/Debian**: `sudo apt-get install ffmpeg`
+   - **macOS**: `brew install ffmpeg`
+   - **Windows**: Download from https://ffmpeg.org/download.html and add to PATH
+
+3. Create and activate a virtual environment:
    ```bash
    python -m venv fintalk
    source fintalk/bin/activate  # On Windows: fintalk\Scripts\activate
    ```
 
-3. Install dependencies:
+4. Install dependencies:
    ```bash
    pip install -r requirements.txt
    ```
 
-4. Configure API keys:
+5. Configure API keys:
    - Create a `.env` file in the root directory
    - Add the required API keys (see Configuration section)
 
@@ -60,6 +66,29 @@ Create a `.env` file with the following API keys:
 API_KEY="your-sarvam-ai-api-key"
 GOOGLE_API_KEY="your-google-ai-api-key"
 ```
+
+## Troubleshooting
+
+### Audio Processing Issues
+
+If you encounter the error: `Error converting audio: [Errno 2] No such file or directory: 'ffprobe'`
+
+This means FFmpeg is not installed or not in your PATH:
+
+1. Install FFmpeg using the instructions in the Prerequisites section
+2. For Streamlit Cloud deployment:
+   - Add this to your `packages.txt` file:
+     ```
+     ffmpeg
+     ```
+   - If `packages.txt` doesn't exist, create it in the root directory
+
+### API Connection Issues
+
+If you encounter API connection errors:
+1. Verify your API keys in the `.env` file
+2. Check your internet connection
+3. Ensure the API services are not experiencing downtime
 
 ## API Services
 This application uses the following API services:
@@ -93,6 +122,7 @@ Get practical financial advice on:
 - streamlit: Web application framework
 - google-generativeai: AI response generation
 - pydub: Audio processing
+- FFmpeg: Audio conversion (system dependency)
 - langdetect/langid: Language detection
 - requests: API communication
 - python-dotenv: Environment variable management
@@ -107,6 +137,7 @@ fintalk/
 │   └── main.py           # Chat interface and logic
 ├── finCard_data.json     # User financial profiles
 ├── requirements.txt      # Dependencies
+├── packages.txt          # System dependencies for Streamlit Cloud
 └── .env                  # API keys and configuration
 ```
 
